@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["jest", "@testing-library/jest-dom", "node", "cypress"]
+  },
+  "include": ["src/**/*", "cypress/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

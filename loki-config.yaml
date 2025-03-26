@@ -1,0 +1,18 @@
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9095
+
+clients:
+  - url: http://loki:3100/api/prom/push
+
+positions:
+  filename: /tmp/positions.yaml
+
+ingester:
+  chunk_idle_period: 5m
+  max_chunk_age: 1h
+  chunk_target_size: 1048576
+  max_inflight_requests: 10000
+  max_returned_streams: 100000

@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"  # Expose the frontend on port 3000, but internally, it's on port 80 (Nginx)
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"  # Web service
+      - "9464:9464"  # For Prometheus scraping
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318/v1/traces  # Use Jaeger's internal network
+      - NODE_ENV=production
+    depends_on:
+      - jaeger
+      - prometheus
+    networks:
+      - app-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "5775:5775"
+      - "6831:6831/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "4317:4317"
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    networks:
+      - app-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
+
+  loki:
+    image: grafana/loki:2.3.0
+    container_name: loki
+    ports:
+      - "3100:3100"  # Loki port to access logs
+    environment:
+      - "LOKI_CONFIG_FILE=/etc/loki/local-config.yaml"
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:8.2.0
+    container_name: grafana
+    ports:
+      - "3001:3000"  # Grafana port 3001 (Grafana UI is available on this port)
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: 'admin'
+    depends_on:
+      - loki
+    networks:
+      - app-network
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:
+
+networks:
+  app-network:
+    driver: bridge
