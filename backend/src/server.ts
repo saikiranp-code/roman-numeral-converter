@@ -20,10 +20,10 @@ app.use(metricsMiddleware);
 app.use(tracingMiddleware);
 
 // Roman numeral conversion controller
-app.use("/api", romanRoutes);
+app.use("/", romanRoutes);
 
 // Metrics endpoint for Prometheus
-app.get("/api/metrics", async (req: Request, res: Response) => {
+app.get("/metrics", async (req: Request, res: Response) => {
   res.set("Content-Type", register.contentType);
   res.end(await register.metrics());
 });

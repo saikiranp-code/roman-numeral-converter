@@ -1,11 +1,11 @@
 import { RomanNumeralResponse } from "../types/RomanNumeralResponse";
-const API_BASE_URL = "http://localhost:8080/api/romannumeral";
+const API_BASE_URL = "http://localhost:8080";
 
 export const fetchRomanNumeral = async (
   num: string
 ): Promise<RomanNumeralResponse> => {
   try {
-    const response = await fetch(`${API_BASE_URL}?query=${num}`);
+    const response = await fetch(`${API_BASE_URL}/romannumeral?query=${num}`);
 
     if (!response.ok) {
       const errorText = await response.text();

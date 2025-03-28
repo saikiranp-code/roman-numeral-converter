@@ -4,6 +4,8 @@
 
 This project is a web-based solution that converts numbers (within the range 1 to 3999) into Roman numerals. It includes a **frontend** built with **React** and **Adobe's React Spectrum** and a **backend** API built with **Node.js/Express**. The solution is containerized using **Docker**, includes **Cypress** for E2E testing, and implements observability with **logs**, **metrics**, and **traces**.
 
+The frontend picks up the system settings to switch between Light/Dark mode.
+
 ---
 
 ## Technologies Used

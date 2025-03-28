@@ -5,7 +5,7 @@ import { logger } from "../../observability/logger";
 const router = Router();
 
 /**
- * @route GET /api/romannumeral
+ * @route GET /romannumeral
  * @desc Convert a number to a Roman numeral
  * @query {string} query - The number to be converted
  * @returns {JSON} { input: number, output: string }

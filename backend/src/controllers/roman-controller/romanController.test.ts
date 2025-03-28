@@ -9,11 +9,11 @@ jest.mock("../../services/roman-service/romanService", () => ({
 }));
 
 const app = express();
-app.use("/api/romannumeral", romanController);
+app.use("/romannumeral", romanController);
 
 describe("Roman Controller", () => {
   it("should return 400 if 'query' is not provided", async () => {
-    const response = await request(app).get("/api/romannumeral");
+    const response = await request(app).get("/romannumeral");
 
     // Expecting a 400 status with a corresponding error message
     expect(response.status).toBe(400);
@@ -23,7 +23,7 @@ describe("Roman Controller", () => {
   });
 
   it("should return 400 for invalid number input", async () => {
-    const response = await request(app).get("/api/romannumeral?query=invalid");
+    const response = await request(app).get("/romannumeral?query=invalid");
 
     // Expecting a 400 status with the corresponding error message
     expect(response.status).toBe(400);
@@ -37,7 +37,7 @@ describe("Roman Controller", () => {
     const romanNumeral = "MCMXCIX"; // Expected Roman numeral output
     (convertToRoman as jest.Mock).mockReturnValue(romanNumeral);
 
-    const response = await request(app).get("/api/romannumeral?query=1999");
+    const response = await request(app).get("/romannumeral?query=1999");
 
     // Expecting a 200 status with the Roman numeral result
     expect(response.status).toBe(200);
